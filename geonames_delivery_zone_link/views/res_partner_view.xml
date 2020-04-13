@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="partner_delivery_zone_tree_view" model="ir.ui.view">
+        <field name="name">Partner delivery zone tree view</field>
+        <field name="model">partner.delivery.zone</field>
+        <field name="arch" type="xml">
+            <tree string="zones">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="city_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="partner_delivery_zone_form_view" model="ir.ui.view">
+        <field name="name">Partner delivery zone form view</field>
+        <field name="model">partner.delivery.zone</field>
+        <field name="arch" type="xml">
+            <form string="zones">
+                <group>
+                    <field name="code"/>
+                    <field name="name"/>
+                </group>
+                <group string="Cities">
+                    <field name="city_ids" widget="many2many_tags" nolabel="1"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+
+     <record id="action_zones_view_tree" model="ir.actions.act_window">
+            <field name="name">Zones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">partner.delivery.zone</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="partner_delivery_zone_tree_view"/>
+     </record>
+
+
+    <record id="res_partner_zone_form_view" model="ir.ui.view">
+        <field name="name">Partner zone form view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="city" position="before">
+                <field name="partner_zone_id" readonly="0" class="o_address_city"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="res_partner_zone_tree_view" model="ir.ui.view">
+        <field name="name">Partner zone tree view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="city" position="after">
+                <field name="partner_zone_id" readonly="0"/>
+                <field name="city"/>
+                <field name="state_id"/>
+            </field>
+        </field>
+    </record>
+
+    <menuitem id="partner_zone_menu"
+              name="Zones"
+              parent="contacts.menu_localisation"
+              action="action_zones_view_tree"/>
+
+</odoo>
